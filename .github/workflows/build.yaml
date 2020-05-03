@@ -2,8 +2,8 @@ name: build openssl docker image
 
 on:
   push:
-    paths:
-    - "**Dockerfile**"
+    branches:
+      - master
 
 jobs:
   build-and-push:
