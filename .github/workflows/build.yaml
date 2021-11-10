@@ -14,10 +14,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build image
-        run: docker build --tag docker.pkg.github.com/jsandas/openssl-tester/openssl:1.0.2-chacha . 
+        run: docker build --tag ghcr.io/jsandas/openssl-tester/openssl:1.0.2-chacha . 
 
       - name: Log into registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com/jsandas -u ${{ github.actor }} --password-stdin
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io/jsandas -u ${{ github.actor }} --password-stdin
 
       - name: Push image
-        run: docker push docker.pkg.github.com/jsandas/openssl-tester/openssl:1.0.2-chacha
+        run: docker push ghcr.io/jsandas/openssl-tester/openssl:1.0.2-chacha
