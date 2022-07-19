@@ -1,0 +1,26 @@
+name: main
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    name: Docker Build, Tag, Push
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build images
+        run: |
+          docker build -t ghcr.io/jsandas/openssl-tester/openssl:1.0.2-bad -f Dockerfile_1.0.2-chacha .
+          docker build -t ghcr.io/jsandas/openssl-tester/openssl:1.1.1-bad -f Dockerfile_1.1.1 . 
+
+      - name: Push images
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io/jsandas -u ${{ github.actor }} --password-stdin
+          docker push --all-tags ghcr.io/jsandas/openssl-tester/openssl
+          docker logout ghcr.io/jsandas
