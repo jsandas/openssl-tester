@@ -7,9 +7,9 @@ RUN git clone https://github.com/drwetter/openssl
 
 WORKDIR /openssl
 
-RUN ./config --prefix=/usr/local --openssldir=/usr/local/lib/ssl \
+RUN ./config --prefix=/usr/local --openssldir=/usr/local/lib/ssl1.0.2 \
     -DOPENSSL_USE_BUILD_DATE -DOPENSSL_USE_IPV6 -static \
-    enable-zlib enable-ssl2 enable-ssl3 enable-ssl-trace enable-rc5 enable-rc2 \
+    enable-zlib enable-ssl3 enable-ssl-trace enable-rc5 enable-rc2 \
     enable-gost enable-cms enable-md2 enable-mdc2 enable-ec enable-ec2m enable-ecdh enable-ecdsa \
     enable-seed enable-camellia enable-idea enable-rfc3779 experimental-jpake \
     enable-ec_nistp_64_gcc_128
@@ -23,7 +23,7 @@ RUN make -i install
 FROM debian
 
 COPY --from=openssl-build /usr/local/bin/openssl /usr/local/bin/
-COPY --from=openssl-build /usr/local/lib/ssl /usr/local/lib/ssl
+COPY --from=openssl-build /usr/local/lib/ssl1.0.2  /usr/local/lib/ssl1.0.2 
 COPY --from=openssl-build /usr/local/include/openssl /usr/local/include/openssl
 
 ENTRYPOINT ["/usr/local/bin/openssl"]
